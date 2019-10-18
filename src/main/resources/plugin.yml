@@ -1,0 +1,4 @@
+name: SmallThings
+main: net.skeagle.smallthings.STmain
+version: 1.7.0
+author: Skeagle
