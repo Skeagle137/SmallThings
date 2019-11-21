@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 import static net.skeagle.smallthings.STmain.say;
-
+//TODO: TEST!!!
 @CommandAlias("smallthings|smallt|sthings|st")
 public class TPA extends BaseCommand {
     private STmain plugin;
