@@ -16,14 +16,12 @@ public class TPA extends BaseCommand {
     private STmain plugin;
     private static Map<UUID, UUID> tpa;
 
-    public Player a;
-    public Player player;
+    private Player a;
+
 
     TPA(STmain st) {
         plugin = st;
-        tpa = new HashMap<>();
         this.a = null;
-        this.player = null;
     }
 
     @Subcommand("tpa")
