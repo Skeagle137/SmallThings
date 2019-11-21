@@ -34,8 +34,7 @@ public class warps extends BaseCommand {
                 config.getString(key);
                 warps.add(key);
             }
-            String warpslist = String.join("&7,&a ", warps);
-            say(p, "&7Currently showing a list of &a" + warps.size() + "&7 warp point(s): &a" + warpslist + "&7.");
+            say(p, "&7Currently showing a list of &a" + warps.size() + "&7 warp point(s): &a" + String.join("&7,&a ", warps) + "&7.");
         } else {
             say(p,"&cThere are currently no warps available.");
         }
@@ -103,13 +102,12 @@ public class warps extends BaseCommand {
             say(p, "&cYou must provide a warp name. /warp <name>.");
         } else {
             if (this.r.getWarps().get("warps." + args[0]) != null) {
-                String s = (String) this.r.getWarps().get("warps." + args[0] + ".world");
-                int x = this.r.getWarps().getInt("warps." + args[0] + ".x");
-                int y = this.r.getWarps().getInt("warps." + args[0] + ".y");
-                int z = this.r.getWarps().getInt("warps." + args[0] + ".z");
-                double yaw = this.r.getWarps().getDouble("warps." + args[0] + ".yaw");
-                double pitch = this.r.getWarps().getDouble("warps." + args[0] + ".pitch");
-                p.teleport(new Location(Bukkit.getWorld(s), x, y, z, (float) yaw, (float) pitch));
+                p.teleport(new Location(Bukkit.getWorld((String) this.r.getWarps().get("warps." + args[0] + ".world")),
+                        this.r.getWarps().getInt("warps." + args[0] + ".x"),
+                        this.r.getWarps().getInt("warps." + args[0] + ".y"),
+                        this.r.getWarps().getInt("warps." + args[0] + ".z"),
+                        (float) this.r.getWarps().getDouble("warps." + args[0] + ".yaw"),
+                        (float) this.r.getWarps().getDouble("warps." + args[0] + ".pitch")));
             } else {
                 say(p, "&cThat warp point does not exist.");
             }

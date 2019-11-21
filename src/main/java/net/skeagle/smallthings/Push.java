@@ -28,6 +28,7 @@ public class Push extends BaseCommand {
                 player.setVelocity(new Vector(player.getVelocity().getX(), 1.5D, player.getVelocity().getZ()));
                 say(cs, "&eYou pushed " + player.getName() + "!");
             }
+            //TODO: add optional arg to specify velocity
             else {
                 say(cs, "&cThat player is not online.");
             }
