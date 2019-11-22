@@ -20,13 +20,12 @@ public class ExpTradeGUI extends CustomInventory {
             String name = expmat.toString().toLowerCase().replaceAll("_", " ");
             Material icon = expmat.getIcon();
             double worth = expmat.getValue();
-            byte data = expmat.getData();
-            ItemStack i = new ItemStack(icon, 1, data);
+            ItemStack i = new ItemStack(icon, 1);
 
             setItem(slot, i, player ->
             {
                 if (checkInv(p, i)) {
-                    new ExpTradeAmount(p, name, icon, worth, data).open(player);
+                    new ExpTradeAmount(p, name, icon, worth).open(player);
                 } else {
                     player.closeInventory();
                     say(p, "&cThat item is not in your inventory.");
@@ -49,7 +48,7 @@ public class ExpTradeGUI extends CustomInventory {
     }
     private boolean checkInv(Player player, ItemStack i) {
         for(ItemStack item : player.getInventory().getContents()) {
-            if (item != null && item.getType() == i.getType() && item.getDurability() == i.getDurability()) {
+            if (item != null && item.getType() == i.getType()) {
                 return true;
             }
         }

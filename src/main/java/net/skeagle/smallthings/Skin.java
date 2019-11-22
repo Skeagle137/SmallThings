@@ -52,13 +52,11 @@ public class Skin extends BaseCommand {
             String signature = textureProperty.get("signature").getAsString();
 
             EntityPlayer ep = ((CraftPlayer) p).getHandle();
-            ep.getProfile().getProperties().put("textures", new Property("textures", texture, signature));
-            //GameProfile gp = ep.getProfile();
-            //PropertyMap pm = gp.getProperties();
-
-            //Property property = pm.get("textures").iterator().next();
-            //pm.remove("textures", property);
-            //pm.put("textures", new Property("textures", texture, signature));
+            GameProfile gp = ep.getProfile();
+            PropertyMap pm = gp.getProperties();
+            Property property = pm.get("textures").iterator().next();
+            pm.remove("textures", property);
+            pm.put("textures", new Property("textures", texture, signature));
             reloadSkin(p);
             say(p, "&aYour skin has been changed successfully.");
         } catch (IOException e) {

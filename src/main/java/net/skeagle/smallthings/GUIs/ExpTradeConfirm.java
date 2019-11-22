@@ -11,7 +11,7 @@ import static net.skeagle.smallthings.STmain.say;
 
 class ExpTradeConfirm extends CustomInventory {
 
-    ExpTradeConfirm(Player p, String name, Material icon, Double worth, byte data, int amount) {
+    ExpTradeConfirm(Player p, String name, Material icon, Double worth, int amount) {
         super(9, "&9&lExp Trade - Confirm");
 
         float calcCost = (float) (ExpUtil.getExp(p) + worth * amount);
@@ -25,14 +25,13 @@ class ExpTradeConfirm extends CustomInventory {
         ItemStack i = new ItemStack(Material.AIR);
         i.setType(icon);
         i.setAmount(amount);
-        i.setDurability(data);
 
         setItem(3, new ItemStack(Material.EMERALD_BLOCK), player -> {
             player.closeInventory();
             for (ItemStack item : p.getInventory().getContents()) {
-                if (item != null && item.getType() == i.getType() && item.getDurability() == i.getDurability()) {
+                if (item != null && item.getType() == i.getType()) {
                     if (item.getAmount() >= amount) {
-                        p.getInventory().removeItem(new ItemStack(item.getType(), amount, item.getDurability()));
+                        p.getInventory().removeItem(new ItemStack(item.getType(), amount));
                         expCalc(p, worth, amount);
                         say(player, "&dYou traded &5" + amount + "x &3" + name + " &dfor &2" + (worth * amount) + " &dexp level(s).");
                         break;
@@ -49,7 +48,7 @@ class ExpTradeConfirm extends CustomInventory {
 
 
         setItem(8, new ItemStack(Material.ARROW), player ->
-                new ExpTradeAmount(p, name, icon, worth, data).open(player), "&7&lBack", new String[]{});
+                new ExpTradeAmount(p, name, icon, worth).open(player), "&7&lBack", new String[]{});
     }
 
     private void expCalc(Player p, double worth, int amount) {

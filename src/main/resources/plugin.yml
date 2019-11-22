@@ -1,4 +1,5 @@
 name: SmallThings
 main: net.skeagle.smallthings.STmain
 version: 1.8.0
+api-version: 1.13
 author: Skeagle
