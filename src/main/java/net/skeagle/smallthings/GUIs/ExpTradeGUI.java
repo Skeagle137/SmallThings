@@ -39,7 +39,7 @@ public class ExpTradeGUI extends CustomInventory {
         }
         int exp = p.getLevel();
         float points = p.getExp();
-        setItem(17, new ItemStack(Material.EMPTY_MAP), player ->
+        setItem(17, new ItemStack(Material.MAP), player ->
         {
         }, "&l&oStats", new String[]{
                 "&9-----------------------------------------",

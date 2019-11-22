@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 import static net.skeagle.smallthings.STmain.say;
 
-public class ExpTradeAmount extends CustomInventory {
+class ExpTradeAmount extends CustomInventory {
 
     ExpTradeAmount(Player p, String name, Material icon, Double worth, byte data) {
         super(9, "Exp Trade - Choose Amount");
@@ -21,7 +21,7 @@ public class ExpTradeAmount extends CustomInventory {
         setItem(0, new ItemStack(Material.EMERALD_BLOCK), player ->
             new ExpTradeConfirm(p, name, icon, worth, data, 1).open(player), "&aConfirm item amount" , new String[]{});
 
-        setItem(2, new ItemStack(Material.EMPTY_MAP), player ->
+        setItem(2, new ItemStack(Material.MAP), player ->
         {
             int newAmount = i.getAmount() - 10;
             i.setAmount(newAmount);
@@ -48,7 +48,7 @@ public class ExpTradeAmount extends CustomInventory {
             new ExpTradeAmount(p, name, icon, worth, data, newAmount).open(player);
         }, "&3+1", new String[]{"&7Click to increase item amount by &b1"});
 
-        setItem(6, new ItemStack(Material.EMPTY_MAP), player ->
+        setItem(6, new ItemStack(Material.MAP), player ->
         {
             int newAmount = 10 + i.getAmount();
             i.setAmount(newAmount);
@@ -90,7 +90,7 @@ public class ExpTradeAmount extends CustomInventory {
             }
         }, "&aConfirm item amount" , new String[]{});
 
-        setItem(2, new ItemStack(Material.EMPTY_MAP), player ->
+        setItem(2, new ItemStack(Material.MAP), player ->
         {
             int newAmount = finalAmountnew - 10;
             i.setAmount(newAmount);
@@ -117,7 +117,7 @@ public class ExpTradeAmount extends CustomInventory {
             new ExpTradeAmount(p, name, icon, worth, data, newAmount).open(player);
         }, "&3+1", new String[]{"&7Click to increase item amount by &b1"});
 
-        setItem(6, new ItemStack(Material.EMPTY_MAP), player ->
+        setItem(6, new ItemStack(Material.MAP), player ->
         {
             int newAmount = 10 + finalAmountnew;
             i.setAmount(newAmount);

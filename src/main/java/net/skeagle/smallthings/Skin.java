@@ -7,13 +7,11 @@ import com.google.gson.JsonParser;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
-import net.minecraft.server.v1_12_R1.EntityPlayer;
-import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerInfo;
-import net.minecraft.server.v1_12_R1.WorldServer;
+import net.minecraft.server.v1_14_R1.EntityPlayer;
+import net.minecraft.server.v1_14_R1.PacketPlayOutPlayerInfo;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_14_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -54,11 +52,13 @@ public class Skin extends BaseCommand {
             String signature = textureProperty.get("signature").getAsString();
 
             EntityPlayer ep = ((CraftPlayer) p).getHandle();
-            GameProfile gp = ep.getProfile();
-            PropertyMap pm = gp.getProperties();
-            Property property = pm.get("textures").iterator().next();
-            pm.remove("textures", property);
-            pm.put("textures", new Property("textures", texture, signature));
+            ep.getProfile().getProperties().put("textures", new Property("textures", texture, signature));
+            //GameProfile gp = ep.getProfile();
+            //PropertyMap pm = gp.getProperties();
+
+            //Property property = pm.get("textures").iterator().next();
+            //pm.remove("textures", property);
+            //pm.put("textures", new Property("textures", texture, signature));
             reloadSkin(p);
             say(p, "&aYour skin has been changed successfully.");
         } catch (IOException e) {
@@ -69,15 +69,12 @@ public class Skin extends BaseCommand {
 
     //this is necessary to see the changes applied to yourself
     private void reloadSkin(Player p) {
-        final EntityPlayer ep = ((CraftPlayer) p).getHandle();
-        CraftWorld cw = (CraftWorld) p.getWorld();
+        EntityPlayer ep = ((CraftPlayer) p).getHandle();
+        CraftServer cs = ((CraftServer) Bukkit.getServer());
         final PacketPlayOutPlayerInfo removeInfo = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, ep);
         final PacketPlayOutPlayerInfo addInfo = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, ep);
-        WorldServer ws = cw.getHandle();
-        int dimension = ws.dimension;
-        CraftServer cs = ((CraftServer) Bukkit.getServer());
         ep.playerConnection.sendPacket(removeInfo);
         ep.playerConnection.sendPacket(addInfo);
-        cs.getHandle().moveToWorld(ep, dimension, true, p.getLocation(), true);
+        cs.getHandle().moveToWorld(ep, ep.dimension, true, p.getLocation(), true);
     }
 }

@@ -16,7 +16,7 @@ class ExpTradeConfirm extends CustomInventory {
 
         float calcCost = (float) (ExpUtil.getExp(p) + worth * amount);
         int finalLevel = (int) ExpUtil.getLevelFromExp((long) calcCost);
-        setItem(0, new ItemStack(Material.EMPTY_MAP), player -> {
+        setItem(0, new ItemStack(Material.MAP), player -> {
         }, "&9&lInformation", new String[]{
                 "&9Material: &a" + name,
                 "&9Amount of material to trade: &a" + amount,
@@ -39,7 +39,6 @@ class ExpTradeConfirm extends CustomInventory {
                     }
                 }
             }
-            //say(player, "&cThe item does not exist in your inventory. Could it have been removed or changed?");
         }, "&2&lCONFIRM", new String[]{});
 
 
@@ -54,7 +53,6 @@ class ExpTradeConfirm extends CustomInventory {
     }
 
     private void expCalc(Player p, double worth, int amount) {
-        //exp = 14 (approximately lvl 1 4/5), amount = 64, worth = 0.2 (you want 26.8 exp from this total)
         float exp = 0;
         exp += ExpUtil.getExp(p); //14
 
@@ -66,19 +64,5 @@ class ExpTradeConfirm extends CustomInventory {
         int finallvl = (int) totalexp;
         p.setLevel(finallvl);
         p.setExp((float) totalexp - finallvl);
-        /*
-        if (exp + (worth * amount) <= ExpUtil.getExpFromLevel(p.getLevel() + 1)) { // (14 + (0.2 * 5) <= 16) = 15 <= 16
-            p.setExp((float) worth * amount);  //1
-        }
-        else {
-            float calcCost = (float) (exp + worth * amount); //26.8
-            int finalLevel = (int) calcCost; //26
-            say(p, String.valueOf(calcCost));
-            say(p, String.valueOf(finalLevel));
-            float finalExp = calcCost - finalLevel; //26.8-26
-            p.setLevel(finalLevel); //3
-            p.setExp(finalExp); //0.8
-        }
-        */
     }
 }

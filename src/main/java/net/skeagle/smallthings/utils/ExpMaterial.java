@@ -12,7 +12,7 @@ public enum ExpMaterial {
     IRON_INGOT(0.125, Material.IRON_INGOT), //  1/8
     GLOWSTONE_DUST(0.0208, Material.GLOWSTONE_DUST), //  1/48
     NETHER_QUARTZ(0.015, Material.QUARTZ), //  1/64
-    LAPIS_LAZULI(0.0104167, Material.INK_SACK, (byte) 4), // 1/96
+    LAPIS_LAZULI(0.0104167, Material.LAPIS_LAZULI, (byte) 4), // 1/96
     COAL(0.015625, Material.COAL), //  1/128
     REDSTONE_DUST(0.015625, Material.REDSTONE); //  1/128
 
