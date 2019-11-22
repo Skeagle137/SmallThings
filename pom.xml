@@ -6,7 +6,7 @@
 
     <groupId>net.skeagle</groupId>
     <artifactId>SmallThings</artifactId>
-    <version>1.1.2</version>
+    <version>1</version>
     <description>Small but useful things.</description>
 
     <properties>
