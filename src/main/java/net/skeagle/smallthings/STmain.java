@@ -12,6 +12,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+
 public class STmain extends JavaPlugin {
 
     private PluginDescriptionFile pdf = this.getDescription();
@@ -22,6 +23,8 @@ public class STmain extends JavaPlugin {
     public STmain() {
         this.resources = new Resources(this);
     }
+
+
 
     @Override
     public void onEnable() {
@@ -52,6 +55,12 @@ public class STmain extends JavaPlugin {
 
     public static void say(CommandSender cs, String message) {
         cs.sendMessage(color(message));
+    }
+
+    public static void saymult(String message, CommandSender... cs) {
+        for (CommandSender sender : cs) {
+            sender.sendMessage(color(message));
+        }
     }
 
     public static String color(String i) {
