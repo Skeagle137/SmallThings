@@ -5,6 +5,7 @@ import net.skeagle.smallthings.listeners.CommandSpyListener;
 import net.skeagle.smallthings.listeners.InvClickListener;
 import net.skeagle.smallthings.listeners.InvCloseListener;
 import net.skeagle.smallthings.utils.Resources;
+import net.skeagle.smallthings.utils.WarpsHomesUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -57,6 +58,12 @@ public class STmain extends JavaPlugin {
         cs.sendMessage(color(message));
     }
 
+    public static void say(CommandSender cs, String... message) {
+        for (String msg : message) {
+            cs.sendMessage(color(msg));
+        }
+    }
+
     public static void saymult(String message, CommandSender... cs) {
         for (CommandSender sender : cs) {
             sender.sendMessage(color(message));
@@ -93,14 +100,14 @@ public class STmain extends JavaPlugin {
     }
 
     void reloadWarps() {
-        FileConfiguration config = this.resources.getWarps();
+        FileConfiguration config = resources.getWarps();
 
         m.getCommandCompletions().registerCompletion("warps", c ->
                 config.getConfigurationSection("warps.").getKeys(false));
     }
 
     void reloadHomes() {
-        FileConfiguration config = this.resources.getWarps();
+        FileConfiguration config = resources.getWarps();
 
         m.getCommandCompletions().registerCompletion("homes", c ->
                 config.getConfigurationSection("homes." + c.getPlayer().getUniqueId()).getKeys(false));

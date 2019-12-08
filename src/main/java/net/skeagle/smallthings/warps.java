@@ -3,8 +3,7 @@ package net.skeagle.smallthings;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import net.skeagle.smallthings.utils.Resources;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import net.skeagle.smallthings.utils.WarpsHomesUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -17,9 +16,11 @@ import static net.skeagle.smallthings.STmain.say;
 @CommandAlias("smallthings|smallt|sthings|st")
 public class warps extends BaseCommand {
     private Resources r;
+    private WarpsHomesUtil util;
 
-    public warps(final Resources r) {
+    warps(final Resources r) {
         this.r = r;
+        util = new WarpsHomesUtil(r);
     }
 
     @Subcommand("warps")
@@ -48,22 +49,9 @@ public class warps extends BaseCommand {
     public void onDelwarp(Player p, String[] args) {
         if (args.length < 1) {
             say(p, "&cYou must provide a warp name. /delwarp <name>.");
-        } else {
-            if (this.r.getWarps().get("warps." + args[0]) != null) {
-                this.r.getWarps().set("warps." + args[0] + ".world", null);
-                this.r.getWarps().set("warps." + args[0] + ".x", null);
-                this.r.getWarps().set("warps." + args[0] + ".y", null);
-                this.r.getWarps().set("warps." + args[0] + ".z", null);
-                this.r.getWarps().set("warps." + args[0] + ".yaw", null);
-                this.r.getWarps().set("warps." + args[0] + ".pitch", null);
-                this.r.getWarps().set("warps." + args[0], null);
-                this.r.getWarps().save();
-                say(p,"&7The warp point &a" + args[0] + "&7 has been deleted.");
-                STmain.getInstance().reloadWarps();
-            } else {
-                say(p,"&cThat warp point does not exist.");
-            }
+            return;
         }
+        util.delValues(p, "warps.", args[0], false);
     }
 
     @Subcommand("setwarp")
@@ -73,23 +61,9 @@ public class warps extends BaseCommand {
     public void onSetwarp(Player p, String[] args) {
         if (args.length < 1) {
             say(p, "&cYou must provide a warp name. /setwarp <name>.");
-        } else {
-            if (this.r.getWarps().get("warps." + args[0]) == null) {
-                String w = p.getWorld().getName();
-                this.r.getWarps().getString("warps");
-                this.r.getWarps().set("warps." + args[0] + ".world", w);
-                this.r.getWarps().set("warps." + args[0] + ".x", p.getLocation().getX());
-                this.r.getWarps().set("warps." + args[0] + ".y", p.getLocation().getY());
-                this.r.getWarps().set("warps." + args[0] + ".z", p.getLocation().getZ());
-                this.r.getWarps().set("warps." + args[0] + ".yaw", p.getLocation().getYaw());
-                this.r.getWarps().set("warps." + args[0] + ".pitch", p.getLocation().getPitch());
-                this.r.getWarps().save();
-                say(p, "&aWarp Successfully set. Teleport to it with /warp.");
-                STmain.getInstance().reloadWarps();
-            } else {
-                say(p, "&cThat warp point already exists.");
-            }
+            return;
         }
+        util.setValues(p, "warps.", args[0], false);
     }
 
     @Subcommand("warp")
@@ -100,20 +74,9 @@ public class warps extends BaseCommand {
     public void onWarp(Player p, String[] args) {
         if (args.length < 1) {
             say(p, "&cYou must provide a warp name. /warp <name>.");
-        } else {
-            if (this.r.getWarps().get("warps." + args[0]) != null) {
-                p.teleport(new Location(Bukkit.getWorld((String) this.r.getWarps().get("warps." + args[0] + ".world")),
-                        this.r.getWarps().getInt("warps." + args[0] + ".x"),
-                        this.r.getWarps().getInt("warps." + args[0] + ".y"),
-                        this.r.getWarps().getInt("warps." + args[0] + ".z"),
-                        (float) this.r.getWarps().getDouble("warps." + args[0] + ".yaw"),
-                        (float) this.r.getWarps().getDouble("warps." + args[0] + ".pitch")));
-            } else {
-                say(p, "&cThat warp point does not exist.");
-            }
+            return;
         }
+        util.teleportToLoc(p, "warps.", args[0], false);
     }
-
-
 }
 
