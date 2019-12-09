@@ -1,6 +1,6 @@
 package net.skeagle.smallthings.listeners;
 
-import net.skeagle.smallthings.CommandSpy;
+import net.skeagle.smallthings.commands.CommandSpy;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

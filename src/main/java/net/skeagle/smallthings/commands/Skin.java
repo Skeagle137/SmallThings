@@ -1,4 +1,4 @@
-package net.skeagle.smallthings;
+package net.skeagle.smallthings.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;

@@ -1,4 +1,4 @@
-package net.skeagle.smallthings;
+package net.skeagle.smallthings.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
@@ -17,7 +17,7 @@ public class homes extends BaseCommand {
     private Resources r;
     private WarpsHomesUtil util;
 
-    homes(final Resources r) {
+    public homes(final Resources r) {
         this.r = r;
         util = new WarpsHomesUtil(r);
     }

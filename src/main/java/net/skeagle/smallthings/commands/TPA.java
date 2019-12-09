@@ -1,7 +1,8 @@
-package net.skeagle.smallthings;
+package net.skeagle.smallthings.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
+import net.skeagle.smallthings.STmain;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -17,7 +18,7 @@ public class TPA extends BaseCommand {
     private static boolean tpahere;
     private static int task;
 
-    TPA(STmain st) {
+    public TPA(STmain st) {
         plugin = st;
         StoredPlayer = new HashMap<>();
     }

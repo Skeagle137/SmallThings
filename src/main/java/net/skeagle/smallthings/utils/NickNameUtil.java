@@ -1,13 +1,13 @@
 package net.skeagle.smallthings.utils;
 
-import org.bukkit.*;
-import org.bukkit.configuration.file.*;
-import java.io.*;
+
+import org.bukkit.ChatColor;
+
 import java.util.*;
 
 public final class NickNameUtil
 {
-    private Resources r ;
+    private Resources r;
     private final Map<UUID, String> nicknames;
     
     public NickNameUtil(Resources r) {
@@ -21,7 +21,7 @@ public final class NickNameUtil
     
     public UUID getPlayerFromNickName(String nick) {
         nick = ChatColor.stripColor(nick);
-        for (final Map.Entry<UUID, String> entry : this.nicknames.entrySet()) {
+        for (final Map.Entry<UUID, String> entry : nicknames.entrySet()) {
             if (ChatColor.stripColor(entry.getValue()).equals(nick)) {
                 return entry.getKey();
             }
@@ -45,7 +45,7 @@ public final class NickNameUtil
     }
     
     public void saveNicks() {
-        final List<String> done = new ArrayList<String>();
+        final List<String> done = new ArrayList<>();
         for (final Map.Entry<UUID, String> entry : nicknames.entrySet()) {
             final String key = entry.getKey().toString();
             r.getplayerData().set(key, entry.getValue());
@@ -56,9 +56,5 @@ public final class NickNameUtil
                 r.getplayerData().set(key2, null);
             }
         }
-    }
-
-    public NickNameUtil getNickUtil() {
-        return this;
     }
 }

@@ -1,12 +1,12 @@
 package net.skeagle.smallthings;
 
 import co.aikar.commands.PaperCommandManager;
+import net.skeagle.smallthings.commands.*;
 import net.skeagle.smallthings.listeners.CommandSpyListener;
 import net.skeagle.smallthings.listeners.InvClickListener;
 import net.skeagle.smallthings.listeners.InvCloseListener;
 import net.skeagle.smallthings.listeners.NickListener;
 import net.skeagle.smallthings.utils.NickNameUtil;
-import net.skeagle.smallthings.utils.Resource;
 import net.skeagle.smallthings.utils.Resources;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -29,9 +29,9 @@ public class STmain extends JavaPlugin {
         this.nickNameUtil = new NickNameUtil(resources);
     }
 
-    //TODO: /nick
-    // /back
+    //TODO: /back
     // /skin saves to config
+    // /skin IMMEDIATELY takes effect, rather than reloading the world
     // fix tpa expired bug
     // add tp to other homes
     // ranks acquired over time
