@@ -6,17 +6,17 @@ public class Resources
 {
     private STmain plugin;
     private Resource warps;
-    private Resource totalplayed;
+    private Resource playerdata;
 
     public Resources(final STmain plugin) {
         this.plugin = plugin;
         this.warps = new Resource(plugin, "warps.yml");
-        this.totalplayed = new Resource(plugin, "totalplayed.yml");
+        this.playerdata = new Resource(plugin, "playerdata.yml");
     }
 
     public void load() {
-        this.warps.load();
-        this.totalplayed.load();
+        warps.load();
+        playerdata.load();
     }
 
     public void reload() {
@@ -24,16 +24,16 @@ public class Resources
     }
 
     public void save() {
-        this.warps.save();
-        this.totalplayed.save();
+        warps.save();
+        playerdata.save();
     }
 
     public Resource getWarps() {
-        return this.warps;
+        return warps;
     }
 
-    public Resource getTotalPlayed() {
-        return this.totalplayed;
+    public Resource getplayerData() {
+        return playerdata;
     }
 }
 

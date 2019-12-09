@@ -4,8 +4,10 @@ import co.aikar.commands.PaperCommandManager;
 import net.skeagle.smallthings.listeners.CommandSpyListener;
 import net.skeagle.smallthings.listeners.InvClickListener;
 import net.skeagle.smallthings.listeners.InvCloseListener;
+import net.skeagle.smallthings.listeners.NickListener;
+import net.skeagle.smallthings.utils.NickNameUtil;
+import net.skeagle.smallthings.utils.Resource;
 import net.skeagle.smallthings.utils.Resources;
-import net.skeagle.smallthings.utils.WarpsHomesUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -20,10 +22,23 @@ public class STmain extends JavaPlugin {
     private static PaperCommandManager m;
     private static STmain plugin;
     private Resources resources;
+    private NickNameUtil nickNameUtil;
 
     public STmain() {
         this.resources = new Resources(this);
+        this.nickNameUtil = new NickNameUtil(resources);
     }
+
+    //TODO: /nick
+    // /back
+    // /skin saves to config
+    // fix tpa expired bug
+    // add tp to other homes
+    // ranks acquired over time
+    // teleport pads (<--- ADD AUTO AFK BEFORE)
+    // redo /invsee with custom armor and offhand slots w/ health and hunger
+    // server money
+    // some form of custom enchants
 
 
 
@@ -34,6 +49,7 @@ public class STmain extends JavaPlugin {
         register();
         //config stuff
         resources.load();
+        nickNameUtil.loadNicks();
         this.getConfig().options().copyDefaults(true);
         this.saveConfig();
         //server messages
@@ -44,10 +60,13 @@ public class STmain extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new InvClickListener(), this);
         Bukkit.getPluginManager().registerEvents(new InvCloseListener(), this);
         Bukkit.getPluginManager().registerEvents(new CommandSpyListener(), this);
+        Bukkit.getPluginManager().registerEvents(new NickListener(nickNameUtil), this);
     }
 
     @Override
     public void onDisable() {
+        nickNameUtil.saveNicks();
+        resources.save();
         getServer().getConsoleSender().sendMessage(ChatColor.RED + "-----------------------------------------");
         getServer().getConsoleSender().sendMessage(ChatColor.RED + "SmallThings version " + pdf.getVersion() + " is now disabled.");
         getServer().getConsoleSender().sendMessage(ChatColor.RED + "-----------------------------------------");
@@ -89,6 +108,9 @@ public class STmain extends JavaPlugin {
         m.registerCommand(new CommandSpy());
         m.registerCommand(new warps(this.resources));
         m.registerCommand(new homes(this.resources));
+        m.registerCommand(new Realname(nickNameUtil));
+        m.registerCommand(new Nick(nickNameUtil));
+        m.registerCommand(new RemoveNick(nickNameUtil));
         m.enableUnstableAPI("help");
 
         m.setDefaultExceptionHandler((command, registeredCommand, sender, args, t) -> {
@@ -99,21 +121,17 @@ public class STmain extends JavaPlugin {
         reloadHomes();
     }
 
-    void reloadWarps() {
+    private void reloadWarps() {
         FileConfiguration config = resources.getWarps();
 
         m.getCommandCompletions().registerCompletion("warps", c ->
                 config.getConfigurationSection("warps.").getKeys(false));
     }
 
-    void reloadHomes() {
+    private void reloadHomes() {
         FileConfiguration config = resources.getWarps();
 
         m.getCommandCompletions().registerCompletion("homes", c ->
                 config.getConfigurationSection("homes." + c.getPlayer().getUniqueId()).getKeys(false));
-    }
-
-    public static STmain getInstance() {
-        return STmain.plugin;
     }
 }

@@ -22,33 +22,6 @@ public class Resource extends YamlConfiguration {
         }
     }
 
-    public Resource(final Plugin plugin, final String resourcePath, final String name) {
-        this.name = name;
-        this.file = new File(plugin.getDataFolder().getAbsolutePath() + "/kits", name);
-        if (!this.file.getParentFile().exists()) {
-            this.file.getParentFile().mkdirs();
-        }
-        if (!this.file.exists()) {
-            plugin.saveResource(resourcePath, true);
-        }
-    }
-
-    public Resource(final Plugin plugin, final String resourcePath, final String name, final boolean custom) {
-        this.name = name;
-        this.file = new File(plugin.getDataFolder().getAbsolutePath() + "/kits", name);
-        if (!this.file.getParentFile().exists()) {
-            this.file.getParentFile().mkdirs();
-        }
-        if (!this.file.exists()) {
-            try {
-                this.file.createNewFile();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public void load() {
         try {
             super.load(this.file);
