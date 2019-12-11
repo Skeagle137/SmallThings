@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 
 import java.util.*;
 
-public final class NickNameUtil
+public class NickNameUtil
 {
     private Resources r;
     private final Map<UUID, String> nicknames;

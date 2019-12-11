@@ -2,10 +2,7 @@ package net.skeagle.smallthings;
 
 import co.aikar.commands.PaperCommandManager;
 import net.skeagle.smallthings.commands.*;
-import net.skeagle.smallthings.listeners.CommandSpyListener;
-import net.skeagle.smallthings.listeners.InvClickListener;
-import net.skeagle.smallthings.listeners.InvCloseListener;
-import net.skeagle.smallthings.listeners.NickListener;
+import net.skeagle.smallthings.listeners.*;
 import net.skeagle.smallthings.utils.NickNameUtil;
 import net.skeagle.smallthings.utils.Resources;
 import org.bukkit.Bukkit;
@@ -61,6 +58,7 @@ public class STmain extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new InvCloseListener(), this);
         Bukkit.getPluginManager().registerEvents(new CommandSpyListener(), this);
         Bukkit.getPluginManager().registerEvents(new NickListener(nickNameUtil), this);
+        Bukkit.getPluginManager().registerEvents(new BackListener(), this);
     }
 
     @Override
@@ -111,6 +109,7 @@ public class STmain extends JavaPlugin {
         m.registerCommand(new Realname(nickNameUtil));
         m.registerCommand(new Nick(nickNameUtil));
         m.registerCommand(new RemoveNick(nickNameUtil));
+        m.registerCommand(new Back());
         m.enableUnstableAPI("help");
 
         m.setDefaultExceptionHandler((command, registeredCommand, sender, args, t) -> {
