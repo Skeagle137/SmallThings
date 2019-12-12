@@ -5,6 +5,8 @@ import co.aikar.commands.annotation.*;
 import net.skeagle.smallthings.STmain;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 
@@ -14,9 +16,9 @@ import static net.skeagle.smallthings.STmain.saymult;
 @CommandAlias("smallthings|smallt|sthings|st")
 public class TPA extends BaseCommand {
     private STmain plugin;
+    private Map<Player, BukkitTask> tasks = new HashMap<>();
     private HashMap<UUID, UUID> StoredPlayer;
     private static boolean tpahere;
-    private static int task;
 
     public TPA(STmain st) {
         plugin = st;
@@ -40,7 +42,7 @@ public class TPA extends BaseCommand {
                 return;
             }
             if (hasRequest(a)) {
-                say(p, "&cYou already have a pending teleport request.");
+                say(p, "&cYou already have a pending teleport request with that player.");
                 return;
             }
             if (hasSentRequest(a)) {
@@ -51,8 +53,7 @@ public class TPA extends BaseCommand {
             say(p, "&aTeleport request sent.");
             say(a, "&a" + p.getName() + " &7is requesting to teleport to you. Do /tpaccept to accept the request or /tpdeny to deny it. This request will expire in 2 minutes.");
             StoredPlayer.put(a.getUniqueId(), p.getUniqueId());
-            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () ->
-                    this.DelRequest(a.getUniqueId(), p.getUniqueId(), true), 120 * 20L);
+            DelTPATimer(p, a);
             return;
         }
         say(p, "&cThat player is not online.");
@@ -112,7 +113,7 @@ public class TPA extends BaseCommand {
                 return;
             }
             if (hasRequest(a)) {
-                say(p, "&cYou already have a pending teleport request.");
+                say(p, "&cYou already have a pending teleport request with that player.");
                 return;
             }
             if (hasSentRequest(a)) {
@@ -123,8 +124,7 @@ public class TPA extends BaseCommand {
             say(p, "&aTeleport request sent.");
             say(a, "&a" + p.getName() + " &7is requesting for you to teleport to them. Do /tpaccept to accept the request or /tpdeny to deny it. This request will expire in 2 minutes.");
             StoredPlayer.put(a.getUniqueId(), p.getUniqueId());
-            task = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () ->
-                    this.DelRequest(a.getUniqueId(), p.getUniqueId(), true), 120 * 20L);
+            DelTPATimer(p, a);
             return;
         }
         say(p, "&cThat player is not online.");
@@ -158,7 +158,7 @@ public class TPA extends BaseCommand {
         }
         a.teleport(p);
         DelRequest(p.getUniqueId(), a.getUniqueId(), false);
-        Bukkit.getScheduler().cancelTask(task);
+        DelTask(a);
     }
 
     private void DelRequest(final UUID u1, final UUID u2, boolean showmsg) {
@@ -167,6 +167,24 @@ public class TPA extends BaseCommand {
             say(Bukkit.getPlayer(u1),"&cThe teleport request from " + Bukkit.getPlayer(u2).getName() + " has expired.");
         }
         StoredPlayer.remove(u1, u2);
-        Bukkit.getScheduler().cancelTask(task);
+        DelTask(Bukkit.getPlayer(u2));
     }
+
+    private void DelTPATimer(Player p, Player a) {
+        tasks.put(p, new BukkitRunnable() {
+            @Override
+            public void run() {
+                DelRequest(a.getUniqueId(), p.getUniqueId(), true);
+            }
+        }.runTaskLater(plugin, 120 * 20L));
+    }
+
+    private void DelTask(Player p) {
+        BukkitTask task = tasks.get(p);
+        if (task != null) {
+            task.cancel();
+            tasks.remove(p);
+        }
+    }
+
 }

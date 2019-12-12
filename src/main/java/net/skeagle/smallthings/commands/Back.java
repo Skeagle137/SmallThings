@@ -2,6 +2,7 @@ package net.skeagle.smallthings.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
+import net.skeagle.smallthings.utils.BackUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -15,11 +16,7 @@ import static net.skeagle.smallthings.STmain.say;
 @CommandAlias("smallthings|smallt|sthings|st")
 public class Back extends BaseCommand {
 
-    private final Map<UUID, Location> backLoc;
-
-    public Back() {
-        backLoc = new HashMap<>();
-    }
+    BackUtil back = BackUtil.getBack();
 
     @Subcommand("back")
     @CommandCompletion("@players")
@@ -27,15 +24,9 @@ public class Back extends BaseCommand {
     @CommandPermission("small.back")
     @Description("Teleports you back to your previous location.")
     public void onBack(Player p, String[] args) {
-        say(p, "&4no.");
-        boolean no = false;
-        if (no) {
-            return;
-        }
-        say(p, String.valueOf(backLoc.get(p.getUniqueId())));
         if (args.length < 1) {
-            if (hasBackLoc(p.getUniqueId())) {
-                teleToBackLoc(p.getUniqueId(), backLoc.get(p.getUniqueId()));
+            if (back.hasBackLoc(p.getUniqueId())) {
+                back.teleToBackLoc(p.getUniqueId(), p);
                 say(p, "&7Teleported to your last location.");
                 return;
             }
@@ -47,25 +38,12 @@ public class Back extends BaseCommand {
             say(p, "&cThat player is not online.");
             return;
         }
-        if (hasBackLoc(a.getUniqueId())) {
-            teleToBackLoc(p.getUniqueId(), backLoc.get(a.getUniqueId()));
+        if (back.hasBackLoc(a.getUniqueId())) {
+            back.teleToBackLoc(p.getUniqueId(), a);
             say(p, "&7Teleported to &a" + a.getName() + "&7's last location.");
         }
         else {
             say(p, "&a" + a.getName() + " &7does not have a saved last location.");
         }
-    }
-
-    public void setBackLoc(UUID id, Location loc) {
-        this.backLoc.remove(id);
-        this.backLoc.put(id, loc);
-    }
-
-    private boolean hasBackLoc(UUID id) {
-        return this.backLoc.containsKey(id);
-    }
-
-    private void teleToBackLoc(UUID id, Location loc) {
-        Bukkit.getPlayer(id).teleport(loc);
     }
 }

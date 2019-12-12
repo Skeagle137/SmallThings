@@ -26,8 +26,7 @@ public class STmain extends JavaPlugin {
         this.nickNameUtil = new NickNameUtil(resources);
     }
 
-    //TODO: /back
-    // /skin saves to config
+    //TODO: /skin saves to config
     // /skin IMMEDIATELY takes effect, rather than reloading the world
     // fix tpa expired bug
     // add tp to other homes
@@ -72,10 +71,12 @@ public class STmain extends JavaPlugin {
     }
 
     public static void say(CommandSender cs, String message) {
+        if (cs == null) return;
         cs.sendMessage(color(message));
     }
 
     public static void say(CommandSender cs, String... message) {
+        if (cs == null) return;
         for (String msg : message) {
             cs.sendMessage(color(msg));
         }
@@ -83,6 +84,7 @@ public class STmain extends JavaPlugin {
 
     public static void saymult(String message, CommandSender... cs) {
         for (CommandSender sender : cs) {
+            if (sender == null) return;
             sender.sendMessage(color(message));
         }
     }
