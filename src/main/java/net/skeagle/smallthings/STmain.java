@@ -28,7 +28,6 @@ public class STmain extends JavaPlugin {
 
     //TODO: /skin saves to config
     // /skin IMMEDIATELY takes effect, rather than reloading the world
-    // fix tpa expired bug
     // add tp to other homes
     // ranks acquired over time
     // teleport pads (<--- ADD AUTO AFK BEFORE)
