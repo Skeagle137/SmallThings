@@ -40,7 +40,7 @@ public class NickNameUtil
     public void loadNicks() {
         Set<String> keys = r.getplayerData().getKeys(false);
         for (String key : keys) {
-            nicknames.put(UUID.fromString(key), r.getplayerData().getString(key));
+            nicknames.put(UUID.fromString(key), r.getplayerData().getString(key + ".nick"));
         }
     }
     
@@ -48,12 +48,12 @@ public class NickNameUtil
         final List<String> done = new ArrayList<>();
         for (final Map.Entry<UUID, String> entry : nicknames.entrySet()) {
             final String key = entry.getKey().toString();
-            r.getplayerData().set(key, entry.getValue());
+            r.getplayerData().set(key + ".nick", entry.getValue());
             done.add(key);
         }
         for (final String key2 : r.getplayerData().getKeys(false)) {
             if (!done.contains(key2)) {
-                r.getplayerData().set(key2, null);
+                r.getplayerData().set(key2 + ".nick", null);
             }
         }
     }
