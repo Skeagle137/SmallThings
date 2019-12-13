@@ -2,6 +2,10 @@ package net.skeagle.smallthings;
 
 import co.aikar.commands.PaperCommandManager;
 import net.skeagle.smallthings.commands.*;
+import net.skeagle.smallthings.commands.gamemode.GamemodeMain;
+import net.skeagle.smallthings.commands.nicknames.Nick;
+import net.skeagle.smallthings.commands.nicknames.Realname;
+import net.skeagle.smallthings.commands.nicknames.RemoveNick;
 import net.skeagle.smallthings.listeners.*;
 import net.skeagle.smallthings.utils.NickNameUtil;
 import net.skeagle.smallthings.utils.Resources;
@@ -111,6 +115,7 @@ public class STmain extends JavaPlugin {
         m.registerCommand(new Nick(nickNameUtil));
         m.registerCommand(new RemoveNick(nickNameUtil));
         m.registerCommand(new Back());
+        m.registerCommand(new GamemodeMain());
         m.enableUnstableAPI("help");
 
         m.setDefaultExceptionHandler((command, registeredCommand, sender, args, t) -> {

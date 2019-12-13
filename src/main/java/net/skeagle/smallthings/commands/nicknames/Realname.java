@@ -1,4 +1,4 @@
-package net.skeagle.smallthings.commands;
+package net.skeagle.smallthings.commands.nicknames;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
