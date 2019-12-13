@@ -13,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -52,9 +53,7 @@ public class STmain extends JavaPlugin {
         this.getConfig().options().copyDefaults(true);
         this.saveConfig();
         //server messages
-        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "----------------------------------------");
-        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SmallThings version " + pdf.getVersion() + " is now enabled.");
-        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "----------------------------------------");
+        log("&a----------------------------------------", "&aSmallThings version " + pdf.getVersion() + " is now enabled.", "&a----------------------------------------");
         //listeners
         Bukkit.getPluginManager().registerEvents(new InvClickListener(), this);
         Bukkit.getPluginManager().registerEvents(new InvCloseListener(), this);
@@ -67,9 +66,7 @@ public class STmain extends JavaPlugin {
     public void onDisable() {
         nickNameUtil.saveNicks();
         resources.save();
-        getServer().getConsoleSender().sendMessage(ChatColor.RED + "-----------------------------------------");
-        getServer().getConsoleSender().sendMessage(ChatColor.RED + "SmallThings version " + pdf.getVersion() + " is now disabled.");
-        getServer().getConsoleSender().sendMessage(ChatColor.RED + "-----------------------------------------");
+        log("&c-----------------------------------------", "&cSmallThings version " + pdf.getVersion() + " is now disabled.", "&c-----------------------------------------");
 
     }
 
@@ -90,6 +87,25 @@ public class STmain extends JavaPlugin {
             if (sender == null) return;
             sender.sendMessage(color(message));
         }
+    }
+
+    public static void log(String message) {
+        Bukkit.getConsoleSender().sendMessage(color(message));
+    }
+
+    public static void log(String... message) {
+        for (String msg : message) {
+            Bukkit.getConsoleSender().sendMessage(color(msg));
+        }
+    }
+
+    public static void logAdmin(Player p, String message) {
+        for (Player pl : Bukkit.getOnlinePlayers()) {
+            if (pl.hasPermission("small.admin")) {
+                say(pl, "&7[&e" + p.getName() + "&7]: &o" + message);
+            }
+        }
+        log("&7[&e" + p.getName() + "&7]: &o" + message);
     }
 
     public static String color(String i) {
