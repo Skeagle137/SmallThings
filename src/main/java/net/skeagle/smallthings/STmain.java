@@ -2,7 +2,7 @@ package net.skeagle.smallthings;
 
 import co.aikar.commands.PaperCommandManager;
 import net.skeagle.smallthings.commands.*;
-import net.skeagle.smallthings.commands.gamemode.GamemodeMain;
+import net.skeagle.smallthings.commands.GamemodeMain;
 import net.skeagle.smallthings.commands.nicknames.Nick;
 import net.skeagle.smallthings.commands.nicknames.Realname;
 import net.skeagle.smallthings.commands.nicknames.RemoveNick;
