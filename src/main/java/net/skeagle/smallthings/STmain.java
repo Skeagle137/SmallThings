@@ -32,12 +32,10 @@ public class STmain extends JavaPlugin {
     }
 
     //TODO: /skin saves to config
-    // /skin IMMEDIATELY takes effect, rather than reloading the world
     // add tp to other homes
     // ranks acquired over time
     // teleport pads (<--- ADD AUTO AFK BEFORE)
     // redo /invsee with custom armor and offhand slots w/ health and hunger
-    // server money
     // some form of custom enchants
 
 
@@ -138,21 +136,18 @@ public class STmain extends JavaPlugin {
             getLogger().warning("Error occurred while executing command " + command.getName());
             return false;
         });
-        reloadWarps();
-        reloadHomes();
+        reloadCompletions();
     }
 
-    private void reloadWarps() {
+
+    private void reloadCompletions() {
         FileConfiguration config = resources.getWarps();
 
         m.getCommandCompletions().registerCompletion("warps", c ->
                 config.getConfigurationSection("warps.").getKeys(false));
-    }
-
-    private void reloadHomes() {
-        FileConfiguration config = resources.getWarps();
 
         m.getCommandCompletions().registerCompletion("homes", c ->
                 config.getConfigurationSection("homes." + c.getPlayer().getUniqueId()).getKeys(false));
+        
     }
 }
